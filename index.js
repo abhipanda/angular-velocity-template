@@ -6,33 +6,38 @@ const cheerio = require('cheerio');
 
 /**
  * Main function to process the conversion
- * @param path
- * @param pathData
- * @param dest
- * @param destHTML
+ * @param iA (Mandatory)
+ * @param iD (Mandatory)
+ * @param oV (Mandatory)
+ * @param oH (Mandatory)
+ * @param preEvalFn (Optional)
+ * @param postEvalFn (Optional)
  */
-const init = ({path = '/data/test.html', pathData = '/data/test.json', dest = '/output/out.vm', destHTML = '/output/out.html', preEvalFn, postEvalFn}) => {
+const init = ({iA = '/data/test.html', iD = '/data/test.json', oV = '/output/out.vm', oH = '/output/out.html', preEvalFn, postEvalFn}) => {
 
-  fs.readFile(__dirname + path, 'utf8', function(err, contents) {
-    fs.ensureFileSync(__dirname + dest);
-    fs.ensureFileSync(__dirname + destHTML);
+  const destVelPath = __dirname + oV, outputHTMLPath = __dirname + oH,
+    inputAngularPath = __dirname + iA, evalDataPathURL = __dirname + iD;
+
+  fs.readFile(inputAngularPath, 'utf8', function(err, contents) {
+    fs.ensureFileSync(destVelPath);
+    fs.ensureFileSync(outputHTMLPath);
     let {replacedContent, pos} = processFile(contents);
 
     // Evaluate the pre evaluation function if supplied
     if (preEvalFn) {
       preEvalFn(replacedContent, pos, (processedContent) => {
-        fs.writeFileSync(__dirname + dest, processedContent, 'utf8');
+        fs.writeFileSync(destVelPath, processedContent, 'utf8');
         evalVelocityTemplate();
       });
     } else {
-      fs.writeFileSync(__dirname + dest, replacedContent, 'utf8');
+      fs.writeFileSync(destVelPath, replacedContent, 'utf8');
       evalVelocityTemplate();
     }
 
 
     if (postEvalFn) {
       postEvalFn(replacedContent, pos, (processedContent) => {
-        fs.writeFile(__dirname + dest, processedContent, 'utf8');
+        fs.writeFile(destVelPath, processedContent, 'utf8');
       });
     }
 
@@ -40,10 +45,10 @@ const init = ({path = '/data/test.html', pathData = '/data/test.json', dest = '/
 
   const evalVelocityTemplate = () => {
 
-    let jsonSyned = fs.readJsonSync(__dirname + pathData);
-    let engine = new Engine({template: __dirname + dest});
+    let jsonSyned = fs.readJsonSync(evalDataPathURL);
+    let engine = new Engine({template: destVelPath});
     let result = engine.render(jsonSyned);
-    fs.writeFileSync(__dirname + destHTML, result, 'utf8');
+    fs.writeFileSync(outputHTMLPath, result, 'utf8');
 
   };
 
@@ -57,14 +62,15 @@ const init = ({path = '/data/test.html', pathData = '/data/test.json', dest = '/
   const processForLoops = (content, pos) => {
     const $ = cheerio.load(content), htmlElement = $("html");
     let ngRepeats = htmlElement.find("*[ng-repeat]");
-    for (let index = 0; index < ngRepeats.length; index++) {
-      let ngIF = $(ngRepeats[index]);
-      let ngRepeat = ngIF.attr('ng-repeat');
-      pos.variables.push(ngRepeat.split(' ')[2]);
-      ngIF.before('\n #foreach( $!' + ngRepeat.split(' ')[0] + ' in $!' + ngRepeat.split(' ')[2] + ' )\n');
-      ngIF.after('\n #end \n');
-      ngIF.removeAttr("ng-repeat");
 
+    for (let index = 0; index < ngRepeats.length; index++) {
+      let ngRepeat = $(ngRepeats[index]).attr('ng-repeat');
+      ngRepeat.before('\n #foreach( $!' + ngRepeat.split(' ')[0] + ' in $!' + ngRepeat.split(' ')[2] + ' )\n');
+      ngRepeat.after('\n #end \n');
+      ngRepeat.removeAttr("ng-repeat");
+
+      // Required to add the variable to attribute meta as its not captured during first pass
+      pos.variables.push(ngRepeat.split(' ')[2]);
     }
 
     return htmlElement.html().replace(/&amp;/g, '&');
@@ -118,7 +124,7 @@ const init = ({path = '/data/test.html', pathData = '/data/test.json', dest = '/
   };
 
   /**
-   *
+   * Utility function to check if valid letter
    * @param c
    * @returns {boolean}
    */
@@ -127,14 +133,11 @@ const init = ({path = '/data/test.html', pathData = '/data/test.json', dest = '/
   };
 
   /**
-   *
+   * Main entry point to start execution
    * @param content
    * @returns {{replacedContent: string, pos: {}}}
    */
   const processFile = (content = '') => {
-
-    console.log(content.length);
-    const $ = cheerio.load(content), htmlElement = $("html");
     let pos = {}, replacedContent = content;
     pos.startIndex = [];
     pos.endIndex = [];
@@ -170,16 +173,11 @@ const init = ({path = '/data/test.html', pathData = '/data/test.json', dest = '/
     replacedContent = processNgIfs(replacedContent);
     replacedContent = processVariableReplacement(replacedContent, pos);
 
-
     return {replacedContent, pos};
   };
 
-
 };
 
-
-
-
 module.exports = {
-  init: init
+  init
 };
