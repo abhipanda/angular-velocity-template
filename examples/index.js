@@ -1,6 +1,6 @@
-const Angular2Velocity = require('../index.js');
+const AVT = require('../index.js');
 
-Angular2Velocity.init({
+AVT.init({
 
   postEvalFn: (content, pos, continueFn) => {
     /**
