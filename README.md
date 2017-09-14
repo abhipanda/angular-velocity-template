@@ -10,6 +10,7 @@
 <h4 align="center">The CLI to convert an Angular template to a velocity template</h4>
 
 <p align="center">
+<a href="https://badge.fury.io/js/angular-velocity-template"><img src="https://badge.fury.io/js/angular-velocity-template.svg" alt="npm version" height="18"></a>
 </p>
 <br>
 
