@@ -1,0 +1,18 @@
+{
+  "productName": "Happy Hello",
+  "message":"Hello World",
+  "bannerColor": "#000",
+  "title": "Wassup!",
+  "imagePath":"../data/happy.png",
+  "additionalProperties": [
+    {
+      "addToTemplate": true,
+      "value": "Yay!!"
+    },
+    {
+      "addToTemplate": true,
+      "key": "Yo",
+      "value": "Yelo!!"
+    }
+  ]
+}

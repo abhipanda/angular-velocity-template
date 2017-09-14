@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta name="viewport" content="width=device-width"/>
+   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+   <title>Generic Notification</title>
+   <style>
+      /* -------------------------------------
+      GLOBAL RESETS
+  ------------------------------------- */
+      img {
+         border: none;
+         -ms-interpolation-mode: bicubic;
+         max-width: 100%;
+      }
+      
+      body.email-body {
+         background-color: #f6f6f6;
+         font-family: sans-serif;
+         -webkit-font-smoothing: antialiased;
+         font-size: 14px;
+         line-height: 1.4;
+         margin: 0;
+         padding: 0;
+         -ms-text-size-adjust: 100%;
+         -webkit-text-size-adjust: 100%;
+      }
+      
+      .clearboth {
+         clear: both;
+      }
+      
+      .email-body-content {
+         display: block;
+         margin: 0 auto !important;
+         max-width: 580px;
+         padding: 10px 0;
+         width: 580px;
+         text-align: center;
+         font-family: SF Hello, Helvetica Neue, sans-serif;
+         background: #FFFFFF;
+      }
+      
+      
+      
+      .email-body-content .avtar div {
+         padding-top: 15px;
+      }
+      
+      .email-body-content .product-name {
+         font-size: 1.8em;
+         white-space: normal;
+         word-wrap: break-word;
+         width: 68%;
+         padding-top: 15px;
+         margin: auto;
+         font-weight: 500;
+      }
+      
+      .email-body-content .header-left {
+         display: inline-block;
+      }
+      
+      
+      .email-body-content h1 {
+         font-size: 1.7em;
+         padding: 15px;
+         color: #fff;
+         -webkit-font-smoothing: antialiased;
+         font-weight: 500;
+         margin-bottom: 5%;
+         margin-top: 5%;
+         border: none;
+      }
+      
+      .email-body-content .message {
+         font-size: 1.6em;
+         padding: 15px;
+      }
+      
+      .email-body-content .additional-notes {
+         margin-bottom: 5%;
+      }
+      
+      
+      .email-body-content .additional-notes .property-key {
+         margin-top: 15px;
+         margin-bottom: 5px;
+         font-size: 16px;
+         font-weight: 400;
+         letter-spacing: .0125em;
+         -webkit-font-smoothing: antialiased;
+         color: #555;
+      }
+      .email-body-content .additional-notes .property-value{
+         font-size: 16px;
+         font-weight: 400;
+         letter-spacing: 0.013em;
+         padding:15px;
+      }
+      
+      
+      .email-body-content .consumer-acknowledge a:active,
+      .email-body-content .consumer-acknowledge a:focus,
+      .email-body-content .consumer-acknowledge a:hover {
+         text-decoration: none;
+         color: rgba(255, 255, 255, 0.9) !important;
+      }
+      .email-body-content .product-logo {
+         margin: 0;
+         width: 72px;
+         height: 72px;
+         margin-top:15px;
+      }
+      
+      .email-body-content .product-logo img {
+         width: 60px;
+         -webkit-filter: saturate(50);
+         filter: saturate(50);
+      }
+      
+      .email-body-content .template-footer img{
+         max-width: 20%;
+      }
+      @media only screen and (max-width: 701px) {
+         body {
+            font-size: 0.8em;
+         }
+      }
+   
+   </style>
+</head>
+<body class="email-body">
+<div class="email-body-content">
+   <div class="template-header">
+      <div class="header-left">
+         <p class="product-logo">
+            <img id="product-image" alt="{{imagePath}}" src="{{imagePath}}"/>
+         </p>
+      </div>
+      <p class="product-name">{{productName}}</p>
+      <div class="clearboth"></div>
+   </div>
+   <div class="template-main-content">
+      <h1 style="background-color:{{bannerColor}}">{{title}}</h1>
+      <p class="message">
+         {{message}} </p>
+      <div class="additional-notes">
+         <div class="mb5" ng-repeat="property in additionalProperties track by $index" ng-if="property.addToTemplate && property.key && property.value">
+            <div class="property-key" ng-if="property.key">{{property.key}}</div>
+            <div class="property-value" ng-if="property.value">{{property.value}}</div>
+            <div class="clearboth"></div>
+         </div>
+      </div>
+      <div class="template-footer">
+         <img id="sc-image" src="{{scImagePath}}"/>
+      </div>
+   </div>
+</div>
+</body>
+</html>
