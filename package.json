@@ -1,20 +1,17 @@
 {
   "name": "angular-velocity-template",
-  "version": "1.0.0-rc2",
+  "version": "1.0.1",
   "description": "Utility to convert an angular template to velocity template",
   "main": "index.js",
   "bin": {
-    "avt": "./index-cli.js"
+    "avt": "bin/index-cli"
   },
   "author": "Abhi Panda",
   "license": "Apache",
-  "devDependencies": {
-    "babel-cli": "6.26.0"
-  },
   "dependencies": {
     "cheerio": "1.0.0-rc.2",
     "fs-extra": "4.0.2",
-    "minimist": "1.2.0",
-    "velocity": "0.7.2"
+    "velocity": "0.7.2",
+    "yargs": "8.0.2"
   }
 }

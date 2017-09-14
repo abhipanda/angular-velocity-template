@@ -1,0 +1,9 @@
+#! /usr/bin/env node
+
+const path = require('path'),
+  argv = require('yargs').argv,
+  avt = require(path.resolve(__dirname, '..', '', 'index.js'));
+
+avt.init(argv);
+
+//avt -iA '/data/test.html' -iD '/data/test.json' -oV '/output/out.vm' -oH '/output/out.vm'

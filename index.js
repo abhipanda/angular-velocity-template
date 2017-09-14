@@ -64,13 +64,13 @@ const init = ({iA = '/data/test.html', iD = '/data/test.json', oV = '/output/out
     let ngRepeats = htmlElement.find("*[ng-repeat]");
 
     for (let index = 0; index < ngRepeats.length; index++) {
-      let ngRepeat = $(ngRepeats[index]).attr('ng-repeat');
-      ngRepeat.before('\n #foreach( $!' + ngRepeat.split(' ')[0] + ' in $!' + ngRepeat.split(' ')[2] + ' )\n');
+      let ngRepeat = $(ngRepeats[index]);
+      let ngRepeatValues = ngRepeat.attr('ng-repeat');
+      ngRepeat.before('\n #foreach( $!' + ngRepeatValues.split(' ')[0] + ' in $!' + ngRepeatValues.split(' ')[2] + ' )\n');
       ngRepeat.after('\n #end \n');
       ngRepeat.removeAttr("ng-repeat");
-
       // Required to add the variable to attribute meta as its not captured during first pass
-      pos.variables.push(ngRepeat.split(' ')[2]);
+      pos.variables.push(ngRepeatValues.split(' ')[2]);
     }
 
     return htmlElement.html().replace(/&amp;/g, '&');
