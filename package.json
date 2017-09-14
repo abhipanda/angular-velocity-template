@@ -1,12 +1,12 @@
 {
   "name": "angular-velocity-template",
-  "version": "1.0.0",
-  "description": "",
+  "version": "0.9.0",
+  "description": "Utility to convert an angular template to velocity template",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "Abhi Panda",
   "license": "Apache",
   "devDependencies": {
     "babel-cli": "6.26.0"

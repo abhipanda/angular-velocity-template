@@ -1,5 +1,5 @@
 <h1 align="center">
-  <br>
+
   <!--<a href="https://webtorrent.io"><img src="https://webtorrent.io/img/WebTorrent.png" alt="WebTorrent" width="200"></a>-->
   <br>
   Angular Velocity Template
@@ -38,4 +38,4 @@ npm install angular-velocity-template-cli -g
 
 ### License
 
-MIT. Copyright (c) [Abhi Panda](https://abhinandanpanda.com)
+Apache. Copyright (c) [Abhi Panda](https://abhinandanpanda.com)
